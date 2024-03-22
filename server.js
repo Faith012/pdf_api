@@ -37,14 +37,14 @@ app.get("/getFileNames/:id", (req, res) => {
       return res.status(500).json({ error: "Failed to read directory." });
     }
 
-    const fileInfos = files.map((file) => {
-      return {
-        name: file,
-        path: path.join(folderPath, file),
-      };
-    });
+    // const fileInfos = files.map((file) => {
+    //   return {
+    //     name: file,
+    //     path: path.join(folderPath, file),
+    //   };
+    // });
 
-    res.send(fileInfos);
+    res.send(files);
   });
 });
 
