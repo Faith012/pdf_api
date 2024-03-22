@@ -44,7 +44,7 @@ app.get("/getFileNames/:id", (req, res) => {
     //   };
     // });
 
-    res.send(files);
+    res.send({files: files});
   });
 });
 
