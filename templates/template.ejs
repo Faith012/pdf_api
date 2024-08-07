@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maintenance Report</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      h1 {
+        text-align: center;
+      }
+      h2 {
+        text-align: left;
+      }
+      .gis-object {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .title-page {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .description {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .answer {
+        margin-left: 20px;
+        color: #007bff;
+      }
+      .image-gallery {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .image-gallery img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .comment {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Registru de verificări</h1>
+      <h1><%= data.maintenanceData.reportTitle %></h1>
+      <h2>Data: <%= timestamp %></h2>
+      <% data.maintenanceData.gisObjects.forEach(function(gisObject) { %>
+      <div class="gis-object">
+        <h2><%= gisObject.gisTitle %></h2>
+        <% gisObject.gisPages.forEach(function(page) { %>
+        <div class="section">
+          <div class="title-page"><%= page.titlePage %></div>
+          <% page.SurveyResponses.forEach(function(response) { %>
+          <div class="description"><%= response.Description %></div>
+          <div class="answer"><%= response.Answer ? 'Da' : 'Nu' %></div>
+          <% }); %> <% if (page.aditionalContentOfPage) {%> <% if
+          (page.aditionalContentOfPage.aditionalContentComment) { %> <% if
+          (page.aditionalContentOfPage.aditionalContentComment.length > 0) { %>
+          <div class="comment">
+            <h4>Comentariu celulă:</h4>
+            <hr />
+            <%= page.aditionalContentOfPage.aditionalContentComment %>
+          </div>
+          <% } %> <% } %> <% if (page.aditionalContentOfPage.imagePaths) { %> <%
+          if (page.aditionalContentOfPage.imagePaths.length > 0) { %>
+          <div class="image-gallery">
+            <h4>Poze problemă:</h4>
+            <hr />
+            <%
+            page.aditionalContentOfPage.imagePaths.forEach(function(imagePath) {
+            %>
+            <img
+              src="<%= `http://${serverIp}/uploads/${imagePath}` %>"
+              alt="Image"
+            />
+            <% }); %>
+          </div>
+          <% } %> <% } %> <% } %>
+        </div>
+        <% }); %>
+      </div>
+      <% }); %>
+    </div>
+  </body>
+</html>
